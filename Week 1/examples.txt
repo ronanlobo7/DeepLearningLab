@@ -1,0 +1,136 @@
+Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch
+>>> torch.__version__
+'2.1.2+cu121'
+>>> scalar = torch.tensor(7)
+>>> scalar
+tensor(7)
+>>> scalar.item()
+7
+>>> vector = torch.tensor([7, 7])
+>>> vector
+tensor([7, 7])
+>>> matrix = torch.tensor([[7, 8], [9, 10]])
+>>> matrix
+tensor([[ 7,  8],
+        [ 9, 10]])
+>>> matrix.shape
+torch.Size([2, 2])
+>>> tensor = torch.tensor([[[1, 2, 3], [4, 5, 6], [7, 8, 9]]])
+>>> tensor
+tensor([[[1, 2, 3],
+         [4, 5, 6],
+         [7, 8, 9]]])
+>>> tensor.ndom
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Tensor' object has no attribute 'ndom'. Did you mean: 'ndim'?
+>>> tensor.ndim
+3
+>>> random_tensor = torch.rand(size=(3, 4))
+>>> random_tensor, random_tensor.dtype
+(tensor([[0.4156, 0.4125, 0.7424, 0.7593],
+        [0.7955, 0.2131, 0.2226, 0.1554],
+        [0.4592, 0.3696, 0.7291, 0.7707]]), torch.float32)
+>>> random_image_size_tensor = torch.rand(size=(224, 224, 3))
+>>> random_image_size_tensor.shape, random_image_size_tensor.ndim
+(torch.Size([224, 224, 3]), 3)
+>>> zeros = torch.zeros(size=(3, 4))
+>>> zeros, zeros.dtype
+(tensor([[0., 0., 0., 0.],
+        [0., 0., 0., 0.],
+        [0., 0., 0., 0.]]), torch.float32)
+>>> ones = torch.ones(size=(3, 4))
+>>> ones, ones.dtype
+(tensor([[1., 1., 1., 1.],
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.]]), torch.float32)
+>>> zero_to_ten_deprecated = torch.range(0, 10)
+<stdin>:1: UserWarning: torch.range is deprecated and will be removed in a future release because its behavior is inconsistent with Python's range builtin. Instead, use torch.arange, which produces values in [start, end).
+>>> zero_to_ten = torch.arange(start=0, end=10, step=1)
+>>> zero_to_ten
+tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+>>> ten_zeros = torch.zeros_like(input=zero_to_ten)
+>>> ten_zeros
+tensor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+>>> float32_tensor = torch.tensor([3.0, 6.0, 9.0], dtype=None, device=None, requires_grad=False)
+>>> float32_tensor.shape, float32_tensor.dtype, float32_tensor.device
+(torch.Size([3]), torch.float32, device(type='cpu'))
+>>> float16_tensor = torch.tensor([3.0, 6.0, 9.0], dtype=torch.float16)
+>>> float16_tensor.dtype
+torch.float16
+>>> some_tensor = torch.rand(3, 4)
+>>> print(some_tensor)
+tensor([[0.3788, 0.6367, 0.4371, 0.6092],
+        [0.4993, 0.5053, 0.6635, 0.4571],
+        [0.4403, 0.0161, 0.2218, 0.7431]])
+>>> print(f"Shape of tensor: {some_tensor.shape}")
+Shape of tensor: torch.Size([3, 4])
+>>> print(f"Datatype of tensor: {some_tensor.dtype}")
+Datatype of tensor: torch.float32
+>>> print(f"Device tensor is stored on: {some_tensor.device}")
+Device tensor is stored on: cpu
+>>> tensor = torch.tensor([1, 2, 3])
+>>> tensor + 10
+tensor([11, 12, 13])
+>>> tensor * 10
+tensor([10, 20, 30])
+>>> tensor
+tensor([1, 2, 3])
+>>> tensor = tensor - 10
+>>> tensor
+tensor([-9, -8, -7])
+>>> tensor = tensor + 10
+>>> tensor
+tensor([1, 2, 3])
+>>> torch.multiply([10, 20, 30])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: multiply() received an invalid combination of arguments - got (list), but expected one of:
+ * (Tensor input, Tensor other, *, Tensor out)
+ * (Tensor input, Number other)
+
+>>> torch.multiply(tensor, 10)
+tensor([10, 20, 30])
+>>> tensor
+tensor([1, 2, 3])
+>>> print(tensor, "*", tensor)
+tensor([1, 2, 3]) * tensor([1, 2, 3])
+>>> print("Equals: ", tensor * tensor)
+Equals:  tensor([1, 4, 9])
+>>> tensor = torch.tensor([1, 2, 3])
+>>> tensor.shape
+torch.Size([3])
+>>> tensor * tensor
+tensor([1, 4, 9])
+>>> torch.matmul(tensor, tensor)
+tensor(14)
+>>> tensor @ tensor
+tensor(14)
+>>> %%time
+  File "<stdin>", line 1
+    %%time
+    ^
+SyntaxError: invalid syntax
+>>> torch.cuda.is_available()
+True
+>>> device = 'cuda' if torch.cuda.is_available() else 'cpu'
+>>> device
+'cuda'
+>>> torch.cuda.device_count()
+1
+>>> tensor = torch.tensor([1, 2, 3])
+>>> print(tensor, tensor.device)
+tensor([1, 2, 3]) cpu
+>>> tensor_on_gpu = tensor.to(device)
+>>> tensor_on_gpu
+tensor([1, 2, 3], device='cuda:0')
+>>> tensor_on_gpu.numpy()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.
+>>> tensor_back_on_cpu = tensor_on_gpu.cpu().numpy()
+>>> tensor_back_on_cpu
+array([1, 2, 3])
+>>> exit()
